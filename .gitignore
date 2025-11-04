@@ -1,0 +1,16 @@
+# Ignorar archivos compilados de Java
+*.class
+
+# Ignorar salidas de compilación
+/out/
+/bin/
+
+# Archivos de configuración de IDE
+/.idea/
+/.vscode/
+/target/
+
+# Archivos temporales
+*.log
+*.tmp
+*.DS_Store
