@@ -9,8 +9,8 @@ public class Computadora extends Producto {
         this.tipo = "Computadora";
     }
 
-    public Computadora(String linea, String modelo, double precio, Map<String, String> specs) {
-        super("Computadora", linea, modelo, precio);
+    public Computadora(String marca, String linea, String modelo, double precio, Map<String, String> specs) {
+        super("Computadora", linea, marca, modelo, precio);
         if (specs != null)
             this.especificaciones.putAll(specs);
     }

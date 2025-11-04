@@ -11,14 +11,16 @@ public abstract class Producto {
     protected String linea; // Premium, Estandar, Economica
     protected String modelo; // nombre del modelo
     protected double precio;
+    protected String marca;
     protected Map<String, String> especificaciones = new HashMap<>();
 
     public Producto() {
     }
 
-    public Producto(String tipo, String linea, String modelo, double precio) {
+    public Producto(String tipo, String linea, String marca, String modelo, double precio) {
         this.tipo = tipo;
         this.linea = linea;
+        this.marca = marca;
         this.modelo = modelo;
         this.precio = precio;
     }
@@ -35,6 +37,10 @@ public abstract class Producto {
 
     public String getModelo() {
         return modelo;
+    }
+
+    public String getMarca() {
+        return marca;
     }
 
     public double getPrecio() {
@@ -57,10 +63,15 @@ public abstract class Producto {
         this.linea = linea;
     }
 
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
     public void mostrarInfo() {
         System.out.println("----- Producto -----");
         System.out.println("Tipo: " + tipo);
         System.out.println("Línea: " + linea);
+        System.out.println("Marca: " + marca);
         System.out.println("Modelo: " + modelo);
         System.out.println("Precio: $" + precio);
         System.out.println("Especificaciones:");

@@ -1,13 +1,15 @@
 package productos;
 
+import java.util.Map;
+
 public class Tableta extends Producto {
 
     public Tableta() {
         this.tipo = "Tableta";
     }
 
-    public Tableta(String linea, String modelo, double precio, java.util.Map<String, String> specs) {
-        super("Tableta", linea, modelo, precio);
+    public Tableta(String marca, String linea, String modelo, double precio, Map<String, String> specs) {
+        super("Tableta", linea, marca, modelo, precio);
         if (specs != null)
             this.especificaciones.putAll(specs);
     }
