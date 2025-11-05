@@ -24,6 +24,7 @@ public class MenuPrincipal {
             System.out.println("2. Mostrar inventario");
             System.out.println("3. Configuración global (Singleton)");
             System.out.println("4. Crear producto (Abstract Factory + Factory Method)");
+            System.out.println("5. Clonar productos (Prototype)");
             System.out.println("0. Salir");
 
             opcion = leerOpcionMenu();
@@ -34,6 +35,7 @@ public class MenuPrincipal {
                 case 2 -> listarInventario();
                 case 3 -> probarSingleton();
                 case 4 -> crearConAbstractFactory();
+                case 5 -> probarPrototype();
                 case 0 -> System.out.println("Saliendo...");
                 default -> {
                     if (opcion != -1) {
@@ -288,7 +290,7 @@ public class MenuPrincipal {
     }
 
     // ==========================================================
-    // CONFIGURAR MODO DEBUG (VALIDACIÓN ROBUSTA)
+    // CONFIGURAR MODO DEBUG
     // ==========================================================
     private static void configurarModoDebug(ConfiguracionGlobal config) {
         boolean entradaValida = false;
@@ -308,4 +310,105 @@ public class MenuPrincipal {
         }
         System.out.println("Modo Debug actualizado a: " + config.isModoDebug());
     }
+
+    // ==========================================================
+    // PROTOTYPE
+    // ==========================================================
+    private static void probarPrototype() {
+        prototype.GestorPrototipos gestor = new prototype.GestorPrototipos();
+
+        int opcion;
+        do {
+            System.out.println("\n=== Dylan Gutierrez y Camilo Castillo ===");
+            System.out.println("\n=== GESTOR DE PROTOTIPOS ===");
+            System.out.println("1. Registrar producto como prototipo");
+            System.out.println("2. Listar prototipos registrados");
+            System.out.println("3. Clonar prototipo exacto");
+            System.out.println("4. Crear variante personalizada");
+            System.out.println("0. Volver al menú principal");
+            opcion = leerOpcionMenu();
+
+            switch (opcion) {
+                case 1 -> registrarPrototipo(gestor);
+                case 2 -> gestor.listarPrototipos();
+                case 3 -> clonarPrototipoExacto(gestor);
+                case 4 -> crearVariante(gestor);
+                case 0 -> System.out.println("Volviendo al menú principal...");
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (opcion != 0);
+    }
+
+    private static void registrarPrototipo(prototype.GestorPrototipos gestor) {
+        if (inventario.isEmpty()) {
+            System.out.println("No hay productos en el inventario para registrar como prototipo.");
+            return;
+        }
+
+        System.out.println("\nSeleccione el producto del inventario a registrar como prototipo:");
+        for (int i = 0; i < inventario.size(); i++) {
+            System.out.println((i + 1) + ") " + inventario.get(i).getTipo() + " - " + inventario.get(i).getModelo());
+        }
+
+        int seleccion = leerOpcionMenu();
+        if (seleccion < 1 || seleccion > inventario.size()) {
+            System.out.println("Selección inválida.");
+            return;
+        }
+
+        Producto producto = inventario.get(seleccion - 1);
+        System.out.print("Ingrese un ID único para el prototipo: ");
+        String id = sc.nextLine().trim();
+
+        gestor.registrarPrototipo(id, producto);
+    }
+
+    private static void clonarPrototipoExacto(prototype.GestorPrototipos gestor) {
+        System.out.print("Ingrese el ID del prototipo a clonar: ");
+        String id = sc.nextLine().trim();
+
+        try {
+            Producto clon = gestor.clonarExacto(id);
+            inventario.add(clon);
+            System.out.println("\nClon creado exitosamente:");
+            clon.mostrarInfo();
+        } catch (Exception e) {
+            System.out.println("Error al clonar: " + e.getMessage());
+        }
+    }
+
+    private static void crearVariante(prototype.GestorPrototipos gestor) {
+        System.out.print("Ingrese el ID del prototipo base: ");
+        String id = sc.nextLine().trim();
+
+        System.out.print("Nueva marca (Enter para mantener): ");
+        String marca = sc.nextLine().trim();
+
+        System.out.print("Nuevo modelo (Enter para mantener): ");
+        String modelo = sc.nextLine().trim();
+
+        System.out.print("Nuevo precio (Enter para mantener): ");
+        String precioTexto = sc.nextLine().trim();
+        Double precio = null;
+        if (!precioTexto.isEmpty()) {
+            try {
+                precio = Double.parseDouble(precioTexto);
+            } catch (NumberFormatException e) {
+                System.out.println("Precio inválido, se mantiene el original.");
+            }
+        }
+
+        try {
+            Producto variante = gestor.crearVariante(id,
+                    marca.isEmpty() ? null : marca,
+                    modelo.isEmpty() ? null : modelo,
+                    precio);
+            inventario.add(variante);
+            System.out.println("\nVariante creada exitosamente:");
+            variante.mostrarInfo();
+        } catch (Exception e) {
+            System.out.println("Error al crear variante: " + e.getMessage());
+        }
+    }
+
 }

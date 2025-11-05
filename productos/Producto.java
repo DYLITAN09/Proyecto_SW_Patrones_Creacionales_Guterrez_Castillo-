@@ -1,12 +1,14 @@
 package productos;
 
+import prototype.Prototype;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Clase base para productos. Incluye mecanismo de "prototype" mediante clonar()
+ * Clase base para productos.
+ * Implementa el patrón Prototype mediante la interfaz Prototype<Producto>
  */
-public abstract class Producto {
+public abstract class Producto implements Prototype<Producto> {
     protected String tipo; // Computadora, Telefono, Tableta
     protected String linea; // Premium, Estandar, Economica
     protected String modelo; // nombre del modelo
@@ -25,8 +27,32 @@ public abstract class Producto {
         this.precio = precio;
     }
 
-    public abstract Producto clonar(); // Prototype
+    /**
+     * Implementación del patrón Prototype.
+     * Cada subclase debe implementar su propia lógica de clonación profunda.
+     */
+    @Override
+    public abstract Producto clonar();
 
+    /**
+     * Valida si el producto puede ser clonado de forma segura.
+     * Un producto puede clonarse si tiene los datos mínimos necesarios:
+     * - Tipo definido y no vacío
+     * - Marca definida y no vacía
+     * - Modelo definido y no vacío
+     * - Precio mayor a 0
+     * 
+     * @return true si el producto tiene datos válidos para clonación
+     */
+    @Override
+    public boolean puedeClonarse() {
+        return tipo != null && !tipo.isEmpty()
+                && marca != null && !marca.isEmpty()
+                && modelo != null && !modelo.isEmpty()
+                && precio > 0;
+    }
+
+    // Getters
     public String getTipo() {
         return tipo;
     }
@@ -51,6 +77,7 @@ public abstract class Producto {
         return especificaciones;
     }
 
+    // Setters
     public void setPrecio(double precio) {
         this.precio = precio;
     }
