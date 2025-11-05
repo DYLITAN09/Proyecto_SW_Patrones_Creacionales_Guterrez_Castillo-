@@ -72,7 +72,7 @@ public class TestFactoryMethod {
 
                 if (!valor.isEmpty()) {
                     especificaciones.put(clave, valor);
-                    System.out.println("  ✓ Añadido: " + clave + " = " + valor);
+                    System.out.println("  Añadido: " + clave + " = " + valor);
                 }
             }
         }

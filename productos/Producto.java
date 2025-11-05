@@ -54,7 +54,7 @@ public abstract class Producto implements Prototype<Producto> {
                 && precio > 0;
     }
 
-    // 🔽 Métodos nuevos para identificar clones
+    // Métodos nuevos para identificar clones
     public void marcarComoClon(String idPrototipoOrigen) {
         this.esClon = true;
         this.prototipoOrigen = idPrototipoOrigen;
