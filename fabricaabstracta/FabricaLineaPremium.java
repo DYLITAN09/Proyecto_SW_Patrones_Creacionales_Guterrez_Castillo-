@@ -32,4 +32,16 @@ public class FabricaLineaPremium implements FabricaLinea {
         specs.put("Almacenamiento", "1TB");
         return new Tableta("Apple", "Premium", "iPad Pro", 1500.0, specs);
     }
+
+    @Override
+    public Audifonos crearAudifonos() {
+        Map<String, String> specs = new HashMap<>();
+        specs.put("Tipo", "Over-Ear");
+        specs.put("Conexion", "Bluetooth 5.3");
+        specs.put("Bateria", "40 horas");
+        specs.put("CancelacionRuido", "Activa (ANC)");
+        specs.put("Compatibilidad", "Dolby Atmos");
+        return new Audifonos("Sony", "Premium", "WH-1000XM5", 500.0, specs);
+    }
+
 }

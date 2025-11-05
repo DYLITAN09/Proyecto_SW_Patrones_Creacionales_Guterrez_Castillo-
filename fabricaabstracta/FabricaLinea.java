@@ -8,4 +8,6 @@ public interface FabricaLinea {
     Telefono crearTelefono();
 
     Tableta crearTableta();
+
+    Audifonos crearAudifonos();
 }

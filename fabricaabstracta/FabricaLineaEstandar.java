@@ -32,4 +32,14 @@ public class FabricaLineaEstandar implements FabricaLinea {
         specs.put("Almacenamiento", "256GB");
         return new Tableta("Lenovo", "Estandar", "Tab-M10", 700.0, specs);
     }
+
+    @Override
+    public Audifonos crearAudifonos() {
+        Map<String, String> specs = new HashMap<>();
+        specs.put("Tipo", "On-Ear");
+        specs.put("Conexion", "Bluetooth 5.0");
+        specs.put("Bateria", "25 horas");
+        specs.put("CancelacionRuido", "Pasiva");
+        return new Audifonos("JBL", "Estandar", "Tune 710", 200.0, specs);
+    }
 }

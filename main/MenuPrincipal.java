@@ -58,6 +58,7 @@ public class MenuPrincipal {
         System.out.println("1) Computadora");
         System.out.println("2) Teléfono");
         System.out.println("3) Tableta");
+        System.out.println("4) Audífonos");
 
         int op = leerOpcionMenu();
         FabricaProducto fabricante;
@@ -66,6 +67,7 @@ public class MenuPrincipal {
             case 1 -> fabricante = new FabricaComputadora();
             case 2 -> fabricante = new FabricaTelefono();
             case 3 -> fabricante = new FabricaTableta();
+            case 4 -> fabricante = new FabricaAudifonos();
             default -> {
                 System.out.println("Opción inválida.");
                 return;
@@ -185,6 +187,7 @@ public class MenuPrincipal {
         System.out.println("1) Computadora");
         System.out.println("2) Teléfono");
         System.out.println("3) Tableta");
+        System.out.println("4) Audífonos");
 
         int tipoOpcion = leerOpcionMenu();
         Producto producto;
@@ -193,6 +196,7 @@ public class MenuPrincipal {
             case 1 -> producto = fabricaLinea.crearComputadora();
             case 2 -> producto = fabricaLinea.crearTelefono();
             case 3 -> producto = fabricaLinea.crearTableta();
+            case 4 -> producto = fabricaLinea.crearAudifonos();
             default -> {
                 System.out.println("Opción inválida.");
                 return;

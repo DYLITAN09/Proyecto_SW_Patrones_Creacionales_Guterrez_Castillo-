@@ -32,4 +32,14 @@ public class FabricaLineaEconomica implements FabricaLinea {
         specs.put("Almacenamiento", "64GB");
         return new Tableta("Huawei", "Economica", "Tab-Lite", 400.0, specs);
     }
+
+    @Override
+    public Audifonos crearAudifonos() {
+        Map<String, String> specs = new HashMap<>();
+        specs.put("Tipo", "In-Ear");
+        specs.put("Conexion", "Cable 3.5mm");
+        specs.put("Bateria", "N/A");
+        specs.put("CancelacionRuido", "No");
+        return new Audifonos("Philips", "Economica", "EarGo", 50.0, specs);
+    }
 }
