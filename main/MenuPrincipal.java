@@ -169,6 +169,7 @@ public class MenuPrincipal {
         System.out.println("1) Premium");
         System.out.println("2) Estándar");
         System.out.println("3) Económica");
+        System.out.println("4) Gaming");
 
         int lineaOpcion = leerOpcionMenu();
         fabricaabstracta.FabricaLinea fabricaLinea;
@@ -177,6 +178,7 @@ public class MenuPrincipal {
             case 1 -> fabricaLinea = new fabricaabstracta.FabricaLineaPremium();
             case 2 -> fabricaLinea = new fabricaabstracta.FabricaLineaEstandar();
             case 3 -> fabricaLinea = new fabricaabstracta.FabricaLineaEconomica();
+            case 4 -> fabricaLinea = new fabricaabstracta.FabricaLineaGaming();
             default -> {
                 System.out.println("Opción inválida.");
                 return;
