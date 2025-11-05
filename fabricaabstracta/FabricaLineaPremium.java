@@ -19,8 +19,8 @@ public class FabricaLineaPremium implements FabricaLinea {
     public Telefono crearTelefono() {
         Map<String, String> specs = new HashMap<>();
         specs.put("Pantalla", "6.8\" AMOLED 120Hz");
-        specs.put("Batería", "5000mAh");
-        specs.put("Cámara", "108MP");
+        specs.put("Bateria", "5000mAh");
+        specs.put("Camara", "108MP");
         return new Telefono("Samsung", "Premium", "Galaxy Ultra", 1800.0, specs);
     }
 

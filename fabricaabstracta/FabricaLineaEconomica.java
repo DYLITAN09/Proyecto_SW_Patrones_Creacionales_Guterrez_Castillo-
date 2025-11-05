@@ -19,8 +19,8 @@ public class FabricaLineaEconomica implements FabricaLinea {
     public Telefono crearTelefono() {
         Map<String, String> specs = new HashMap<>();
         specs.put("Pantalla", "6.1\" LCD");
-        specs.put("Batería", "3000mAh");
-        specs.put("Cámara", "8MP");
+        specs.put("Bateria", "3000mAh");
+        specs.put("Camara", "8MP");
         return new Telefono("Motorola", "Economica", "Moto E", 300.0, specs);
     }
 

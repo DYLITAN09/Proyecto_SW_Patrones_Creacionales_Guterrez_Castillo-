@@ -18,8 +18,8 @@ public class FabricaTelefono implements FabricaProducto {
     public Producto crearProducto(String marca, String modelo, Double precio, Map<String, String> especificaciones) {
         Map<String, String> specs = new HashMap<>();
         specs.put("Pantalla", "6.1\"");
-        specs.put("Batería", "3500mAh");
-        specs.put("Cámara", "12MP");
+        specs.put("Bateria", "3500mAh");
+        specs.put("Camara", "12MP");
 
         if (especificaciones != null && !especificaciones.isEmpty()) {
             specs.putAll(especificaciones); // ← ESTO DEBE SOBRESCRIBIR

@@ -19,6 +19,7 @@ public class MenuPrincipal {
     public static void main(String[] args) {
         int opcion;
         do {
+            System.out.println("\n=== Dylan Gutierrez y Camilo Castillo ===");
             System.out.println("\n=== Sistema de Gestión de Productos===");
             System.out.println("1. Crear producto (Factory Method)");
             System.out.println("2. Mostrar inventario");
@@ -319,12 +320,12 @@ public class MenuPrincipal {
 
         int opcion;
         do {
-            System.out.println("\n=== Dylan Gutierrez y Camilo Castillo ===");
             System.out.println("\n=== GESTOR DE PROTOTIPOS ===");
             System.out.println("1. Registrar producto como prototipo");
             System.out.println("2. Listar prototipos registrados");
             System.out.println("3. Clonar prototipo exacto");
             System.out.println("4. Crear variante personalizada");
+            System.out.println("5. Listar clones/variantes en inventario");
             System.out.println("0. Volver al menú principal");
             opcion = leerOpcionMenu();
 
@@ -333,6 +334,7 @@ public class MenuPrincipal {
                 case 2 -> gestor.listarPrototipos();
                 case 3 -> clonarPrototipoExacto(gestor);
                 case 4 -> crearVariante(gestor);
+                case 5 -> listarClones();
                 case 0 -> System.out.println("Volviendo al menú principal...");
                 default -> System.out.println("Opción inválida.");
             }
@@ -369,6 +371,7 @@ public class MenuPrincipal {
 
         try {
             Producto clon = gestor.clonarExacto(id);
+            clon.marcarComoClon(id);
             inventario.add(clon);
             System.out.println("\nClon creado exitosamente:");
             clon.mostrarInfo();
@@ -398,17 +401,68 @@ public class MenuPrincipal {
             }
         }
 
+        // AGREGUE: permitir modificar o agregar especificaciones
+        Map<String, String> nuevasEspecificaciones = new HashMap<>();
+        System.out.print("¿Desea agregar o modificar especificaciones? (s/n): ");
+        String respuesta = sc.nextLine().trim();
+
+        if (respuesta.equalsIgnoreCase("s")) {
+            while (true) {
+                System.out.print("Nombre de especificación como RAM, CPU ..(o 'fin' para terminar): ");
+                String nombre = sc.nextLine().trim();
+                if (nombre.equalsIgnoreCase("fin"))
+                    break;
+
+                System.out.print("Valor: ");
+                String valor = sc.nextLine().trim();
+                nuevasEspecificaciones.put(nombre, valor);
+            }
+        }
+
         try {
-            Producto variante = gestor.crearVariante(id,
-                    marca.isEmpty() ? null : marca,
-                    modelo.isEmpty() ? null : modelo,
-                    precio);
+            // Si se modifican especificaciones, usar el método extendido
+            Producto variante;
+            if (nuevasEspecificaciones.isEmpty()) {
+                variante = gestor.crearVariante(
+                        id,
+                        marca.isEmpty() ? null : marca,
+                        modelo.isEmpty() ? null : modelo,
+                        precio);
+            } else {
+                variante = gestor.crearVarianteConEspecificaciones(
+                        id,
+                        marca.isEmpty() ? null : marca,
+                        modelo.isEmpty() ? null : modelo,
+                        precio,
+                        nuevasEspecificaciones);
+            }
+
+            // Marcar y guardar la variante
+            variante.marcarComoClon(id);
             inventario.add(variante);
+
             System.out.println("\nVariante creada exitosamente:");
             variante.mostrarInfo();
+
         } catch (Exception e) {
             System.out.println("Error al crear variante: " + e.getMessage());
         }
     }
 
+    private static void listarClones() {
+        System.out.println("\n=== CLONES Y VARIANTES EN INVENTARIO ===");
+        boolean hayClones = false;
+
+        for (Producto p : inventario) {
+            if (p.esClon()) {
+                p.mostrarInfo();
+                System.out.println();
+                hayClones = true;
+            }
+        }
+
+        if (!hayClones) {
+            System.out.println("No hay clones o variantes registrados en el inventario.");
+        }
+    }
 }

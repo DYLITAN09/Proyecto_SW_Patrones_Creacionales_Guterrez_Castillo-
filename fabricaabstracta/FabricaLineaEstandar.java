@@ -19,8 +19,8 @@ public class FabricaLineaEstandar implements FabricaLinea {
     public Telefono crearTelefono() {
         Map<String, String> specs = new HashMap<>();
         specs.put("Pantalla", "6.4\" OLED");
-        specs.put("Batería", "4000mAh");
-        specs.put("Cámara", "48MP");
+        specs.put("Bateria", "4000mAh");
+        specs.put("Camara", "48MP");
         return new Telefono("Xiaomi", "Estandar", "Redmi Note", 800.0, specs);
     }
 

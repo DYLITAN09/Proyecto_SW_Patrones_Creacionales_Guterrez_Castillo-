@@ -15,6 +15,8 @@ public abstract class Producto implements Prototype<Producto> {
     protected double precio;
     protected String marca;
     protected Map<String, String> especificaciones = new HashMap<>();
+    protected boolean esClon = false;
+    protected String prototipoOrigen;
 
     public Producto() {
     }
@@ -50,6 +52,20 @@ public abstract class Producto implements Prototype<Producto> {
                 && marca != null && !marca.isEmpty()
                 && modelo != null && !modelo.isEmpty()
                 && precio > 0;
+    }
+
+    // 🔽 Métodos nuevos para identificar clones
+    public void marcarComoClon(String idPrototipoOrigen) {
+        this.esClon = true;
+        this.prototipoOrigen = idPrototipoOrigen;
+    }
+
+    public boolean esClon() {
+        return esClon;
+    }
+
+    public String getPrototipoOrigen() {
+        return prototipoOrigen;
     }
 
     // Getters
@@ -101,6 +117,9 @@ public abstract class Producto implements Prototype<Producto> {
         System.out.println("Marca: " + marca);
         System.out.println("Modelo: " + modelo);
         System.out.println("Precio: $" + precio);
+        if (esClon) {
+            System.out.println("(Derivado del prototipo: " + prototipoOrigen + ")");
+        }
         System.out.println("Especificaciones:");
         for (Map.Entry<String, String> e : especificaciones.entrySet()) {
             System.out.println("  - " + e.getKey() + ": " + e.getValue());

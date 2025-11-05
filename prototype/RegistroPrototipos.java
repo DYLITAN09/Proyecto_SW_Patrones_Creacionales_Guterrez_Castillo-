@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Registro de prototipos (Prototype Pattern).
+ * Registro de prototipos (Prototype).
  * Almacena productos base que pueden ser clonados para crear variantes.
  */
 public class RegistroPrototipos {
