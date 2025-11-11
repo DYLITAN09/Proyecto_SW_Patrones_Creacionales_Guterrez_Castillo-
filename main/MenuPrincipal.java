@@ -27,6 +27,7 @@ public class MenuPrincipal {
             System.out.println("4. Crear producto (Abstract Factory + Factory Method)");
             System.out.println("5. Clonar productos (Prototype)");
             System.out.println("6. Actualizar precio con sistema externo (Adapter)");
+            System.out.println("7. Agregar extras a producto (Decorator)");
             System.out.println("0. Salir");
 
             opcion = leerOpcionMenu();
@@ -39,6 +40,7 @@ public class MenuPrincipal {
                 case 4 -> crearConAbstractFactory();
                 case 5 -> probarPrototype();
                 case 6 -> usarAdapterParaActualizarPrecio();
+                case 7 -> aplicarDecoradores();
                 case 0 -> System.out.println("Saliendo...");
                 default -> {
                     if (opcion != -1) {
@@ -236,6 +238,122 @@ public class MenuPrincipal {
         producto.mostrarInfo();
 
         inventario.add(producto);
+    }
+
+    // ==========================================================
+    // DECORATOR: Agregar extras a productos
+    // ==========================================================
+    private static void aplicarDecoradores() {
+        if (inventario.isEmpty()) {
+            System.out.println("No hay productos en el inventario para decorar.");
+            return;
+        }
+
+        System.out.println("\n=== Agregar Extras a Producto (Decorator) ===");
+
+        // Mostrar productos disponibles
+        for (int i = 0; i < inventario.size(); i++) {
+            System.out.println((i + 1) + ") " + inventario.get(i).getTipo() +
+                    " - " + inventario.get(i).getModelo() +
+                    " - $" + inventario.get(i).getPrecio());
+        }
+
+        System.out.print("\nSeleccione el número del producto a decorar: ");
+        int seleccion = leerOpcionMenu();
+
+        if (seleccion < 1 || seleccion > inventario.size()) {
+            System.out.println("Selección inválida.");
+            return;
+        }
+
+        Producto productoOriginal = inventario.get(seleccion - 1);
+
+        // Crear el ProductoDecorable envolviendo el producto original
+        decorator.IProducto productoDecorable = new decorator.ProductoDecorable(productoOriginal);
+
+        System.out.println("\n--- Producto seleccionado ---");
+        System.out.println("Descripción: " + productoDecorable.getDescripcion());
+        System.out.println("Precio base: $" + productoDecorable.getPrecio());
+
+        // Menú de decoradores
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("\n=== Extras Disponibles ===");
+            System.out.println("1. Garantía Extendida (+$150)");
+            System.out.println("2. Embalaje Premium (+$50)");
+            System.out.println("3. Seguro contra Robo (+$200)");
+            System.out.println("4. Finalizar y ver resumen");
+            System.out.println("0. Cancelar (volver sin cambios)");
+
+            int opcionDecorador = leerOpcionMenu();
+
+            switch (opcionDecorador) {
+                case 1 -> {
+                    productoDecorable = new decorator.GarantiaExtendida(productoDecorable);
+                    System.out.println("✓ Garantía Extendida agregada");
+                }
+                case 2 -> {
+                    productoDecorable = new decorator.EmbalajePremium(productoDecorable);
+                    System.out.println("✓ Embalaje Premium agregado");
+                }
+                case 3 -> {
+                    productoDecorable = new decorator.SeguroRobo(productoDecorable);
+                    System.out.println("✓ Seguro contra Robo agregado");
+                }
+                case 4 -> {
+                    mostrarResumenDecorador(productoDecorable, productoOriginal);
+                    continuar = false;
+                }
+                case 0 -> {
+                    System.out.println("Operación cancelada. No se realizaron cambios.");
+                    return;
+                }
+                default -> System.out.println("Opción inválida.");
+            }
+
+            if (continuar && opcionDecorador >= 1 && opcionDecorador <= 3) {
+                System.out.println("\nPrecio actual: $" + productoDecorable.getPrecio());
+                System.out.println("Descripción actual: " + productoDecorable.getDescripcion());
+            }
+        }
+
+        // Confirmar aplicación de cambios
+        System.out.print("\n¿Desea aplicar estos extras al producto? (s/n): ");
+        String respuesta = sc.nextLine().trim().toLowerCase();
+
+        if (respuesta.equals("s") || respuesta.equals("si")) {
+            // Actualizar el precio del producto original
+            productoOriginal.setPrecio(productoDecorable.getPrecio());
+
+            // Opcionalmente, actualizar el modelo para reflejar los extras
+            String nuevaDescripcion = productoDecorable.getDescripcion();
+            productoOriginal.setModelo(nuevaDescripcion);
+
+            System.out.println("\n✓ Extras aplicados exitosamente al producto.");
+            System.out.println("\n--- Producto Actualizado ---");
+            productoOriginal.mostrarInfo();
+        } else {
+            System.out.println("No se aplicaron cambios al producto.");
+        }
+    }
+
+    /**
+     * Muestra un resumen detallado del producto con decoradores
+     */
+    private static void mostrarResumenDecorador(decorator.IProducto productoDecorado,
+            Producto productoOriginal) {
+        System.out.println("\n========================================");
+        System.out.println("       RESUMEN DE PRODUCTO DECORADO");
+        System.out.println("========================================");
+        System.out.println("Producto base: " + productoOriginal.getTipo() +
+                " - " + productoOriginal.getModelo());
+        System.out.println("Precio original: $" + productoOriginal.getPrecio());
+        System.out.println("\n--- CON EXTRAS ---");
+        System.out.println("Descripción completa: " + productoDecorado.getDescripcion());
+        System.out.println("Precio final: $" + productoDecorado.getPrecio());
+        System.out.println("Incremento total: $" +
+                (productoDecorado.getPrecio() - productoOriginal.getPrecio()));
+        System.out.println("========================================");
     }
 
     // ==========================================================
