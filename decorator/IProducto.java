@@ -1,5 +1,7 @@
 package decorator;
 
-public class IProducto {
+public interface IProducto {
+    String getDescripcion();
 
+    double getPrecio();
 }
