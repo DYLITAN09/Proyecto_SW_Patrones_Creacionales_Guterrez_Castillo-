@@ -26,6 +26,7 @@ public class MenuPrincipal {
             System.out.println("3. Configuración global (Singleton)");
             System.out.println("4. Crear producto (Abstract Factory + Factory Method)");
             System.out.println("5. Clonar productos (Prototype)");
+            System.out.println("6. Actualizar precio con sistema externo (Adapter)");
             System.out.println("0. Salir");
 
             opcion = leerOpcionMenu();
@@ -37,6 +38,7 @@ public class MenuPrincipal {
                 case 3 -> probarSingleton();
                 case 4 -> crearConAbstractFactory();
                 case 5 -> probarPrototype();
+                case 6 -> usarAdapterParaActualizarPrecio();
                 case 0 -> System.out.println("Saliendo...");
                 default -> {
                     if (opcion != -1) {
@@ -137,6 +139,75 @@ public class MenuPrincipal {
         }
 
         return specs.isEmpty() ? null : specs;
+    }
+
+    // ==========================================================
+    // ADAPTER: Actualizar precios desde sistema externo
+    // ==========================================================
+    private static void usarAdapterParaActualizarPrecio() {
+        if (inventario.isEmpty()) {
+            System.out.println("No hay productos en el inventario para actualizar.");
+            return;
+        }
+
+        System.out.println("\n=== Actualización de precios (Adapter) ===");
+        for (int i = 0; i < inventario.size(); i++) {
+            System.out.println((i + 1) + ") " + inventario.get(i).getTipo() + " - " +
+                    inventario.get(i).getModelo() + " - $" + inventario.get(i).getPrecio());
+        }
+
+        System.out.print("\nSeleccione el número del producto a actualizar: ");
+        int seleccion = leerOpcionMenu();
+
+        if (seleccion < 1 || seleccion > inventario.size()) {
+            System.out.println("Selección inválida.");
+            return;
+        }
+
+        var producto = inventario.get(seleccion - 1);
+
+        // Crear el sistema externo y su adaptador
+        adapter.ExternalPriceSystem externalSystem = new adapter.ExternalPriceSystem();
+        adapter.PriceProvider adapter = new adapter.PriceAdapter(externalSystem);
+
+        // permitir elegir entre el sistema externo o el precio actual
+        System.out.println("\nSeleccione el origen del nuevo precio:");
+        System.out.println("1) Usar sistema externo (Adapter con USD)");
+        System.out.println("2) Convertir el precio actual del producto (Adapter local)");
+
+        int origen = leerOpcionMenu();
+        double nuevoPrecio;
+
+        if (origen == 1) {
+            // Caso 1: obtener precio del sistema externo (USD → COP)
+            nuevoPrecio = adapter.getPrice(producto.getTipo());
+            System.out.println("\nPrecio obtenido del sistema externo y convertido a COP: $" + nuevoPrecio);
+
+        } else if (origen == 2) {
+            // Caso 2: tomar el precio actual del producto y convertirlo con el Adapter
+            double precioActual = producto.getPrecio();
+            nuevoPrecio = ((adapter.PriceAdapter) adapter).convertirDesdeUsuario(precioActual);
+            System.out.println("\nPrecio actual del producto en USD: $" + precioActual);
+            System.out.println("Precio convertido con Adapter (a COP): $" + nuevoPrecio);
+
+        } else {
+            System.out.println("Opción inválida.");
+            return;
+        }
+
+        // Confirmar si se quiere actualizar el producto
+        System.out.print("¿Desea actualizar el precio del producto? (s/n): ");
+        String respuesta = sc.nextLine().trim().toLowerCase();
+
+        if (respuesta.equals("s") || respuesta.equals("si")) {
+            producto.setPrecio(nuevoPrecio);
+            System.out.println(" Precio actualizado CORRECTAMENTE.");
+        } else {
+            System.out.println(" No se realizó ningún cambio.");
+        }
+
+        System.out.println("\n--- Información actualizada del producto ---");
+        producto.mostrarInfo();
     }
 
     // ==========================================================
