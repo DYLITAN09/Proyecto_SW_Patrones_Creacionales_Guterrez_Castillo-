@@ -1,4 +1,4 @@
-# Proyecto: Patrones de Diseño Creacionales — Gutierrez & Castillo
+# Entrega de taller: Patrones de Diseño Creacionales — Gutierrez & Castillo
 
 > **Presentación del taller sobre Patrones de Diseño Creacionales**
 
@@ -15,7 +15,7 @@ Este repositorio contiene una colección educativa de implementaciones en **Java
 
 ---
 
-## Patrones incluidos (carpetas del repo)
+## Patrones incluidos (carpetas del repositorio)
 
 El repositorio incluye, como mínimo, las siguientes implementaciones:
 
